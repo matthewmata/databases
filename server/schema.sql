@@ -8,6 +8,7 @@ CREATE TABLE messages (
   message  VARCHAR(255) NOT NULL,
   roomname VARCHAR(50) NOT NULL, 
   username VARCHAR(50) NOT NULL,
+  createdAt timestamp NOT NULL DEFAULT current_timestamp,
   primary key (id)
 );
 
@@ -22,6 +23,6 @@ CREATE TABLE users (
 
 
 /*  Execute this file from the command line by typing:
- *    mysql -u root < server/schema.sql
+ *    mysql -u student < server/schema.sql
  *  to create the database and the tables.*/
 
