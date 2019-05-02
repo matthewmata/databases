@@ -3,32 +3,46 @@ var db = require('../db');
 module.exports = {
   messages: {
     get: (callback) => {
-      db.query('SELECT * FROM messages', (err, results) => {
+      db.query('SELECT * FROM messages', (err, data) => {
         if(err) {
           callback(err);
         } else {
-          callback(null, results);
+          callback(null, data);
         }
       })
     }, // a function which produces all the messages
-    post: (message, roomname, username) => {
-      db.query(`INSERT INTO messages(id, message, roomname, username) VALUES('${message}', '${roomname}', '${username})'`);
+    post: (message, roomname, username, callback) => {
+      db.query(`INSERT INTO messages(message, roomname, username) VALUES('${message}', '${roomname}', '${username}')`, (err, data) => {
+        if(err) {
+          callback(err);
+        } else {
+          callback(null, data);
+        }
+      }
+      );
     } // a function which can be used to insert a message into the database
   },
 
   users: {
     // Ditto as above.
     get: (callback) => {
-      db.query('SELECT * FROM users', (err, results) => {
+      db.query('SELECT * FROM users', (err, data) => {
         if(err) {
           callback(err);
         } else {
-          callback(null, results);
+          callback(null, data);
         }
       })
     },
-    post: (username) => {
-      db.query(`INSERT INTO users(username) VALUES('${username}'`);
+    post: (username, callback) => {
+      db.query(`INSERT INTO users(username) VALUES('${username}')`, (err, data) => {
+        if(err) {
+          console.error(err);
+          callback(err);
+        } else {
+          callback(null, data);
+        }
+      });
     }
   }
 };

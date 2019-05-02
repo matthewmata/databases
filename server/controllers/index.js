@@ -4,16 +4,46 @@ module.exports = {
   messages: {
     get:(req, res) => {
       models.messages.get((err, data) => {
-        res.status(200).send(data);
+        if (err) {
+          res.status(404).send('Failed');
+        } else {
+          res.status(200).send(data);
+        }
       })
     }, // a function which handles a get request for all messages
-    post: function (req, res) {} // a function which handles posting a message to the database
+    post:(req, res) => {
+      const { message, roomname, username } = req.body;
+      models.messages.post(message, roomname, username, (err, data) => {
+        if(err) {
+          res.status(404).send('Failed');
+        } else {
+          res.status(201).send('successfully posted');
+        }
+      })
+    } // a function which handles posting a message to the database
   },
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: (req, res) => {
+      models.users.get((err, data) => {
+        if (err) {
+          res.status(404).send('Failed')
+        } else {
+          res.status(200).send(data);
+        }
+      })
+    },
+    post: (req, res) => {
+      const { username } = req.body;
+      models.users.post(username, (err, data) => {
+        if(err) {
+          res.status(404).send('Failed');
+        } else {
+          res.status(201).send('sucessfully posted');
+        }
+      })
+    }
   }
 };
 
